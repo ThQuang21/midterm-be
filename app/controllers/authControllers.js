@@ -98,7 +98,6 @@ function checkAuth(req, res, next) {
 
 function checkUser(req, res, next) {
     try {
-        console.log(req.userData)
         const jwtEmail = req.userData.email;
         const userEmail = req.body.email || req.params.email;
 

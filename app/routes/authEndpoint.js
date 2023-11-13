@@ -14,6 +14,22 @@ router.post('/signup', async (req, res) => {
             return res.status(400).json({ error: 'Password is required in the request body' });
         }
 
+        if (!req.body.name) {
+            return res.status(400).json({ error: 'Name is required in the request body' });
+        }
+
+        if (!req.body.phone) {
+            return res.status(400).json({ error: 'Phone is required in the request body' });
+        }
+
+        if (!req.body.job) {
+            return res.status(400).json({ error: 'Job is required in the request body' });
+        }
+
+        if (!req.body.age) {
+            return res.status(400).json({ error: 'Age is required in the request body' });
+        }
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.email)) {
             return res.status(400).json({ error: 'Invalid email format' });
@@ -25,7 +41,7 @@ router.post('/signup', async (req, res) => {
                 error: 'Invalid password format. It must have at least one lowercase letter, one uppercase letter, one special character, and be at least 6 characters long.',
             });
         }
-        
+
         const existinUser = await User.findOne({ email: req.body.email });
         if (existinUser) {
             return res.status(400).json({ error: 'Email already exists in the database' });
@@ -33,18 +49,13 @@ router.post('/signup', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-        const validStatusValues = ['Married', 'Single', 'Divorced'];
-        if (!validStatusValues.includes(req.body.status)) {
-            return res.status(400).json({ error: 'Invalid status value' });
-        }
-
         const age = parseInt(req.body.age);
-        if (isNaN(age) || age <= 0 || age >= 150) {
+        if (age <= 0 || age >= 150) {
             return res.status(400).json({ error: 'Invalid age value' });
         }
 
         const maxLength = 25;
-        const fieldsToCheck = ['name', 'job', 'phone', 'city'];
+        const fieldsToCheck = ['name', 'job', 'phone', 'email'];
 
         for (const field of fieldsToCheck) {
             if (req.body[field] && req.body[field].length > maxLength) {

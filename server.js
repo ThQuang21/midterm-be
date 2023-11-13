@@ -1,5 +1,6 @@
 const express = require("express");
 var mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 require("dotenv").config();
 var connectString = process.env.DATABASE_URL
@@ -16,6 +17,8 @@ database.once('connected', () => {
 })
 
 const app = express();
+app.use(express.static('public'))
+app.use(cors({origin: true, credentials: true}));
 app.use(bodyParser.json());
 
 const routerUser = require('./app/routes/userEndpoint');

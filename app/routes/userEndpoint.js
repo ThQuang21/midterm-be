@@ -60,13 +60,6 @@ router.put('/', auth.checkAuth, auth.checkUser, async (req, res) => {
             }
             userToUpdate.age = age;
         }
-        if (req.body.status) {
-            const validStatusValues = ['Married', 'Single', 'Divorced'];
-            if (!validStatusValues.includes(req.body.status)) {
-                return res.status(400).json({ error: 'Invalid status value' });
-            }
-            userToUpdate.status = req.body.status;
-        }
         if (req.body.job) {
             const maxLength = 25;
             if (req.body.job.length > maxLength) {
@@ -80,13 +73,6 @@ router.put('/', auth.checkAuth, auth.checkUser, async (req, res) => {
                 return res.status(400).json({ error: `Phone should not be longer than ${maxLength} characters` });
             }
             userToUpdate.phone = req.body.phone;
-        }
-        if (req.body.city) {
-            const maxLength = 25;
-            if (req.body.city.length > maxLength) {
-                return res.status(400).json({ error: `City should not be longer than ${maxLength} characters` });
-            }
-            userToUpdate.city = req.body.city;
         }
 
         if (req.body.password) {
