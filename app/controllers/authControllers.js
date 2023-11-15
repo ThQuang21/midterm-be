@@ -78,7 +78,7 @@ async function signIn(req, res) {
             return res.status(401).json({ error: 'Email or password incorrect' });
         }
 
-        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '12h' });
         res.status(200).json({ token });
     } catch (error) {
         res.status(400).json({ error: error.message });
